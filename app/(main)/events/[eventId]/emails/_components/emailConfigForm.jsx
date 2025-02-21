@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../../../../components/ui/tabs"
 import { Card } from "../../../../../../components/ui/card"
 import { Button } from "../../../../../../components/ui/button"
 import { Input } from "../../../../../../components/ui/input"

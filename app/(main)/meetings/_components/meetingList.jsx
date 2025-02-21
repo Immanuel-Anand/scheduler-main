@@ -7,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "../../../../components/ui/card";
 import CancelMeetingButton from "./cancelMeeting";
 import { Button } from "../../../../components/ui/button";
 import { useState, useEffect } from "react";

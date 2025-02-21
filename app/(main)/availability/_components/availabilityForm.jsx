@@ -10,7 +10,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "../../../../components/ui/select"
 import { timeSlots } from '../data'
 import { Input } from '../../../../components/ui/input'
 import { Button } from '../../../../components/ui/button'
