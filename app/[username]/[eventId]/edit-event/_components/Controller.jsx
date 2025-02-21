@@ -6,8 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../../../components/ui/select";
-import Themes from "@/app/_data/Themes";
-import GradientBg from "@/app/_data/GradientBg";
+import Themes from "../../../../_data/Themes";
+import GradientBg from "../../../../_data/GradientBg";
 import { Button } from "../../../../../components/ui/button";
 import { RadioGroup, RadioGroupItem } from "../../../../../components/ui/radio-group";
 import { Textarea } from "../../../../../components/ui/textarea";

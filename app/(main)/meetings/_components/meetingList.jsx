@@ -26,8 +26,8 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination";
-import { DatePicker } from "@/components/ui/date-picker";
+} from "../../../../components/ui/pagination";
+import { DatePicker } from "../../../../components/ui/date-picker";
 import { addDays } from "date-fns";
 
 // Format timezone names
