@@ -1,0 +1,41 @@
+Tutorial: https://www.youtube.com/watch?v=glAC7d-TYSM&t=309s&ab_channel=RoadsideCoder
+1.30.00 2/4/2025
+2.42.00 2/5/22025
+3.05 2/6/2025 
+4.30 2/7/2025 -- Complete
+
+Todo:
+
+Add mass email sending option
+Add wordpress integration article
+Add AI chat option and it should be able to answer questions and book meetings
+Add Analytics page to see how many meetings are booked and how many people are booked
+Add try catch for all the server actions involving db query
+Add team members and share events
+Get zoom, Teams and GMEet links
+Add file attach and storage feature
+Create report abuse page like in Calendly
+
+
+
+Make this page a public page so users can book appointment: http://localhost:3000/Angelin-Shamili26/
+Add custom questions option in events/
+Add invitee time zone in booking page/
+Add all the options and questions to the actual event page/
+Add a provision to add video link on the side of the calendar under the event name/
+Add 'add guests' option to invite others to the meeting/
+Add Zoom option/
+Add Google Meet and MS Teams option - Add a button to connect their google calandar/
+Add time zone like in Calendly/
+Add Date-specific hours like in Calendly/
+In booking form input:
+Add location refer Calendly/
+Add email format validator/
+Add phone based on location input/
+Get the booking person's time zone and add/
+Add video on the left hand side/
+Get zoom, Teams and GMEet links/
+Get the booking person's time zone and add/
+Give an option to set the owner's time zone. And change the upcoming meetings timing based on owner's time zone./
+Make holidays/
+Create multiple schedules/

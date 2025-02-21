@@ -1,0 +1,203 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String        @id @default(uuid())
+  clerkUserId      String        @unique
+  email            String        @unique
+  username         String?       @unique
+  name             String?
+  imageUrl         String?
+  storageInMB      Int           @default(0)
+  events           Event[]       @relation("UserEvents")
+  bookings         Booking[]     @relation("UserBookings")
+  availability     Availability?
+  schedules        Schedule[]
+  zoomAccessToken  String?
+  zoomRefreshToken String?
+  zoomUserId       String?
+  zoomTokenExpires DateTime?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model Event {
+  id                   String       @id @default(uuid())
+  userId               String
+  user                 User         @relation("UserEvents", fields: [userId], references: [id])
+  scheduleId           String?
+  schedule             Schedule?    @relation(fields: [scheduleId], references: [id])
+  title                String
+  description          String?
+  duration             Int
+  location             String[]     @default([])
+  inPersonDetails      Json?
+  phoneDetails         Json?
+  theme                String?
+  background           String?
+  questions            Json?
+  redirecturl          String?
+  confPageSelection    String?
+  confirmationPageText String?
+  allowGuest           Boolean      @default(true)
+  addFirstLastName     Boolean      @default(false)
+  introVideoLink       String?
+  bookings             Booking[]
+  isPrivate            Boolean      @default(true)
+  emailConfig          EmailConfig?
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+
+  @@index([userId])
+  @@index([scheduleId])
+}
+
+model Booking {
+  id                  String    @id @default(uuid())
+  eventId             String
+  event               Event     @relation(fields: [eventId], references: [id], onDelete: Cascade) // onDelete: Cascade means whenever the event is deleted and the corresponding Bookings will be deleted as well
+  userId              String
+  user                User      @relation("UserBookings", fields: [userId], references: [id])
+  firstName           String?
+  lastName            String?
+  name                String? // Name of the person booking the event
+  email               String? // Email of the person booking the event
+  location            String? // Location of the meeting
+  suggestedLocation   String? // Suggested location of the meeting
+  phoneNumber         String? // Phone number of the person booking the event
+  askInvitee          String? // Ask invitee to add add location
+  timezone            String? // Timezone of the attendee
+  addGuestEmails      String[]  @default([]) // Array of guest emails
+  customQAnswers      Json? // Optional custom questions answers from the person booking
+  startTime           DateTime?
+  endTime             DateTime?
+  meetLink            String? // Google Meet link for the booking
+  googleEventId       String?
+  zoomLink            String? // Zoom link for the booking
+  zoomMeetingId       String?
+  zoomMeetingUrl      String?
+  zoomMeetingPassword String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model Availability {
+  id            String            @id @default(uuid())
+  userId        String            @unique
+  user          User              @relation(fields: [userId], references: [id])
+  days          DayAvailability[]
+  timeGap       Int
+  dateOverrides DateOverride[]
+  holidays      Holiday[]
+  schedule      Schedule?         @relation("ScheduleAvailability")
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model DayAvailability {
+  id             String    @id @default(uuid())
+  availabilityId String
+  day            DayOfWeek
+  startTime      DateTime
+  endTime        DateTime
+
+  availability Availability @relation(fields: [availabilityId], references: [id], onDelete: Cascade)
+}
+
+// Add this new model
+model DateOverride {
+  id             String       @id @default(uuid())
+  date           DateTime     @db.Date
+  startTime      DateTime
+  endTime        DateTime
+  availability   Availability @relation(fields: [availabilityId], references: [id], onDelete: Cascade)
+  availabilityId String
+
+  @@unique([availabilityId, date])
+}
+
+// Add this new model
+model Holiday {
+  id             String       @id @default(uuid())
+  date           DateTime     @db.Date
+  name           String?
+  availability   Availability @relation(fields: [availabilityId], references: [id], onDelete: Cascade)
+  availabilityId String
+
+  @@unique([availabilityId, date])
+}
+
+model Schedule {
+  id             String        @id @default(uuid())
+  name           String
+  isDefault      Boolean       @default(false)
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  availability   Availability? @relation("ScheduleAvailability", fields: [availabilityId], references: [id])
+  availabilityId String?       @unique
+  events         Event[] // Relation to events
+
+  @@unique([userId, name])
+}
+
+// enum means user can only use that value among these 
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+model EmailConfig {
+  id      String @id @default(uuid())
+  eventId String @unique
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  replyTo String @default("host") // Single replyTo field for all email types
+
+  // Confirmation email
+  confirmationSubject            String?
+  confirmationBody               String?
+  confirmationCancellationPolicy String?
+  confirmationIncludeCancelLinks Boolean @default(true)
+
+  // Cancellation email
+  cancellationSubject String?
+  cancellationBody    String?
+
+  // Reminder emails
+  reminderEnabled            Boolean @default(false)
+  reminderSubject            String?
+  reminderBody               String?
+  reminderTimings            Int[]   @default([24])
+  reminderCancellationPolicy String?
+  reminderIncludeCancelLinks Boolean @default(true)
+
+  // Follow-up emails
+  followupEnabled Boolean @default(false)
+  followupSubject String?
+  followupBody    String?
+  followupTimings Int[]   @default([24])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MicrosoftIntegration {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  accessToken  String
+  refreshToken String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
