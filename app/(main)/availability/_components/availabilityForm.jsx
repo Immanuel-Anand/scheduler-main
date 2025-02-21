@@ -1,6 +1,6 @@
 'use client'
 import { Checkbox } from '../../../../components/ui/checkbox'
-import { availabilitySchema } from '../../../../lib/validators '
+import { availabilitySchema } from '../../../../lib/validators'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
