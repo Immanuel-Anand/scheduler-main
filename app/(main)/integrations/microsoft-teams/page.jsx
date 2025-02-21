@@ -7,20 +7,10 @@ import Image from "next/image"
 import { useSearchParams } from 'next/navigation'
 import { Parser } from 'json2csv'
 
-export default async function MicrosoftTeamsIntegration() {
-  const data = await getData()
-  
-  return (
-    <Suspense fallback={<div>Loading integration...</div>}>
-      <IntegrationChild data={data} />
-    </Suspense>
-  )
-}
-
-function IntegrationChild({ data }) {
+function IntegrationContent() {
+  const searchParams = useSearchParams()
   const [isConnected, setIsConnected] = useState(false)
   const [loading, setLoading] = useState(false)
-  const searchParams = useSearchParams()
   const code = searchParams.get('code')
 
   // Recreate parser using serialized data
@@ -93,5 +83,15 @@ function IntegrationChild({ data }) {
         </div>
       </Card>
     </div>
+  )
+}
+
+export default async function MicrosoftTeamsIntegration() {
+  const data = await fetchIntegrationData() // Replace with your data fetching
+  
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <IntegrationContent />
+    </Suspense>
   )
 }
