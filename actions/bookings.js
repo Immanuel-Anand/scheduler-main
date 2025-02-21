@@ -1,10 +1,10 @@
 "use server";
 
-import { db } from "@/lib/prisma";
+import { db } from "../lib/prisma";
 import { clerkClient } from "@clerk/nextjs/server";
 import { google } from "googleapis";
-import { createZoomMeeting } from "@/lib/zoom";
-import { sendEventEmail } from '@/lib/resend';
+import { createZoomMeeting } from "../lib/zoom";
+import { sendEventEmail } from '../lib/resend';
 import { format } from 'date-fns';
 
 // Step 1: Check if the event isExists,
