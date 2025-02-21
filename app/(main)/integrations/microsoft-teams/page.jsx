@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { Card } from "../../../../components/ui/card"
 import { Button } from "../../../../components/ui/button"
 import Image from "next/image"
@@ -8,7 +8,16 @@ import { useSearchParams } from 'next/navigation'
 import { Parser } from 'json2csv'
 
 export default async function MicrosoftTeamsIntegration() {
-  const data = await getData() // Fetch data directly in component
+  const data = await getData()
+  
+  return (
+    <Suspense fallback={<div>Loading integration...</div>}>
+      <IntegrationChild data={data} />
+    </Suspense>
+  )
+}
+
+function IntegrationChild({ data }) {
   const [isConnected, setIsConnected] = useState(false)
   const [loading, setLoading] = useState(false)
   const searchParams = useSearchParams()
