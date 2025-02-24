@@ -15,8 +15,9 @@ module.exports = {
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true
-    },
-    project: './tsconfig.json'
+    }
+    // Remove this ↓
+    // project: './tsconfig.json'
   },
   plugins: ['@typescript-eslint'],
   env: {
