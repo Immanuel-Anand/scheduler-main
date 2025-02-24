@@ -7,7 +7,7 @@ module.exports = {
     'no-unused-vars': 'warn',
     'no-console': 'warn'
   },
-  parser: '@typescript-eslint/parser',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
