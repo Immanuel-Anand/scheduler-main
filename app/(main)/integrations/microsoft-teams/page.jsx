@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { Card } from "../../../../components/ui/card"
 import { Button } from "../../../../components/ui/button"
 import Image from "next/image"
 import { useSearchParams } from 'next/navigation'
 
-export default function MicrosoftTeamsIntegration() {
+function ConnectMicrosoftTeams() {
   const [isConnected, setIsConnected] = useState(false)
   const [loading, setLoading] = useState(false)
   const searchParams = useSearchParams()
@@ -56,40 +56,48 @@ export default function MicrosoftTeamsIntegration() {
   }, [code])
 
   return (
+    <div className="flex items-start gap-6">
+      <div className="relative w-24 h-24">
+        <Image
+          src="/location-icons/ms-teams.svg"
+          alt="Microsoft Teams"
+          fill
+          className="object-contain"
+        />
+      </div>
+      <div className="flex-1">
+        <h1 className="text-2xl font-bold mb-4">Microsoft Teams Integration</h1>
+        
+        {isConnected ? (
+          <div className="text-green-600 mb-4">
+            ✅ Successfully connected to Microsoft Teams
+          </div>
+        ) : (
+          <Button 
+            onClick={handleConnect}
+            disabled={loading}
+          >
+            {loading ? 'Connecting...' : 'Connect Microsoft Teams Account'}
+          </Button>
+        )}
+
+        <p className="mt-4 text-muted-foreground">
+          {isConnected 
+            ? "Your Microsoft Teams account is connected. You can now create Teams meetings directly in your bookings."
+            : "Click the button above to connect your Microsoft Teams account. This will allow you to create Teams meetings directly in your bookings."}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export default function MicrosoftTeamsIntegration() {
+  return (
     <div className="max-w-5xl mx-auto p-6">
       <Card className="p-6">
-        <div className="flex items-start gap-6">
-          <div className="relative w-24 h-24">
-            <Image
-              src="/location-icons/ms-teams.svg"
-              alt="Microsoft Teams"
-              fill
-              className="object-contain"
-            />
-          </div>
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold mb-4">Microsoft Teams Integration</h1>
-            
-            {isConnected ? (
-              <div className="text-green-600 mb-4">
-                ✅ Successfully connected to Microsoft Teams
-              </div>
-            ) : (
-              <Button 
-                onClick={handleConnect}
-                disabled={loading}
-              >
-                {loading ? 'Connecting...' : 'Connect Microsoft Teams Account'}
-              </Button>
-            )}
-
-            <p className="mt-4 text-muted-foreground">
-              {isConnected 
-                ? "Your Microsoft Teams account is connected. You can now create Teams meetings directly in your bookings."
-                : "Click the button above to connect your Microsoft Teams account. This will allow you to create Teams meetings directly in your bookings."}
-            </p>
-          </div>
-        </div>
+        <Suspense fallback={<div>Loading Microsoft Teams integration...</div>}>
+          <ConnectMicrosoftTeams />
+        </Suspense>
       </Card>
     </div>
   )
