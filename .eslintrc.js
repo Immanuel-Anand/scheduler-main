@@ -7,12 +7,14 @@ module.exports = {
     'no-unused-vars': 'warn',
     'no-console': 'warn'
   },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true
-    }
+    },
+    requireConfigFile: false
   },
   env: {
     browser: true,
