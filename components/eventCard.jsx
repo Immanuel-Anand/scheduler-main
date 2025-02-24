@@ -133,71 +133,81 @@ const EventCard = ({ event, username, isPublic = false }) => {
           {/* <p>{event.description.substring(0, event.description.indexOf("."))}</p> */}
         </CardContent>
         {!isPublic && (
-          <CardFooter className="flex flex-col sm:flex-row gap-2">
+          <CardFooter className="flex flex-row flex-wrap gap-2">
             <TooltipProvider>
               <Tooltip>
-                <Link
-                  href={`/events?edit=true&eventId=${event.id}`}
-                  className=""
-                >
-                  <TooltipTrigger>
-                    <Button variant="outline" className="w-full border-none">
-                      <Pencil className=" h-4 w-4" />
+                <TooltipTrigger asChild>
+                  <Link
+                    href={`/events?edit=true&eventId=${event.id}`}
+                    className="flex-1"
+                  >
+                    <Button variant="outline" className="w-full gap-1" size="sm">
+                      <Pencil className="h-4 w-4" />
+                      <span>Edit</span>
                     </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Edit Event</TooltipContent>
-                </Link>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>Edit Event</TooltipContent>
               </Tooltip>
+
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild>
                   <Button
                     variant="outline"
-                    className=" border-none"
-                    onClick={() =>
-                      router.push(`/${username}/${event.id}/edit-event`)
-                    }
+                    size="sm"
+                    className="gap-1 flex-1"
+                    onClick={() => router.push(`/${username}/${event.id}/edit-event`)}
                   >
-                    <CalendarCog className=" h-10 w-10" />
+                    <CalendarCog className="h-4 w-4" />
+                    <span>Customize</span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Customize Event</TooltipContent>
               </Tooltip>
 
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild>
                   <Button
                     variant="outline"
-                    className="border-none"
+                    size="sm"
+                    className="gap-1 flex-1"
                     onClick={handleCopy}
                   >
-                    <LinkIcon className="mr-1 h-4 w-4" />
-                    {/* {isCopied ? "Copied!" : "Copy"} */}
+                    <LinkIcon className="h-4 w-4" />
+                    <span>Copy Link</span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Copy Link</TooltipContent>
               </Tooltip>
 
               <Tooltip>
-                <TooltipTrigger>
-                  <Link href={`/events/${event.id}/emails`}>
-                    <Button variant="outline" className="border-none">
-                      <Mail className="mr-1 h-4 w-4" />
-                      Configure Emails
+                <TooltipTrigger asChild>
+                  <Link href={`/events/${event.id}/emails`} className="flex-1">
+                    <Button variant="outline" className="w-full gap-1" size="sm">
+                      <Mail className="h-4 w-4" />
+                      <span>Emails</span>
                     </Button>
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent>Configure Emails</TooltipContent>
               </Tooltip>
 
-              <DialogTrigger asChild>
-                <Button
-                  variant="destructive"
-                  className=" border-none"
-                  disabled={loading}
-                >
-                  <Trash2 className="mr-1 h-4 w-4" />
-                </Button>
-              </DialogTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="gap-1 flex-1"
+                      disabled={loading}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      <span>Delete</span>
+                    </Button>
+                  </DialogTrigger>
+                </TooltipTrigger>
+                <TooltipContent>Delete Event</TooltipContent>
+              </Tooltip>
             </TooltipProvider>
           </CardFooter>
         )}
